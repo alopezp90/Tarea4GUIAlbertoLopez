@@ -45,6 +45,10 @@ public class PadNumerico extends JPanel {
         }
     }
 
+    public JButton[][] getBotones() {
+        return botones;
+    }
+
     //test
     public static void main(String[] args) {
 
