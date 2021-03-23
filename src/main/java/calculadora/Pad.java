@@ -19,6 +19,14 @@ public class Pad extends JPanel {
         this.add(new PadNumerico());
         this.add(new PadSimbolico());
     }
+
+    public JPanel getPadNumerico() {
+        return padNumerico;
+    }
+
+    public JPanel getPadSimbolico() {
+        return padSimbolico;
+    }
     
     //test
     public static void main(String[] args) {
