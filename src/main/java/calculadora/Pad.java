@@ -9,22 +9,26 @@ import javax.swing.JPanel;
  */
 public class Pad extends JPanel {
 
-    private JPanel padNumerico, padSimbolico;
+    private PadNumerico padNumerico;
+    private PadSimbolico padSimbolico;
 
     public Pad() {
         initComponentes();
     }
 
     private void initComponentes() {
-        this.add(new PadNumerico());
-        this.add(new PadSimbolico());
+        this.padNumerico = new PadNumerico();
+        this.padSimbolico = new PadSimbolico();
+        
+        this.add(padNumerico);
+        this.add(padSimbolico);
     }
 
-    public JPanel getPadNumerico() {
+    public PadNumerico getPadNumerico() {
         return padNumerico;
     }
 
-    public JPanel getPadSimbolico() {
+    public PadSimbolico getPadSimbolico() {
         return padSimbolico;
     }
     
