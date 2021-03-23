@@ -35,6 +35,14 @@ public class Pantalla extends JPanel{
         this.add(operacion);
         this.add(texto);
     }
+
+    public JLabel getOperacion() {
+        return operacion;
+    }
+
+    public TextoCalculadora getTexto() {
+        return texto;
+    }
     
     //test
     public static void main(String[] args) {
