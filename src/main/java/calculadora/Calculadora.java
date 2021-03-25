@@ -15,6 +15,8 @@ public class Calculadora extends JFrame {
     private Pantalla pantalla;
     private Pad pad;
     private Double memoria;
+    
+    private boolean resultadoReciente;
 
     public Calculadora() {
         initComponentes();
@@ -46,8 +48,14 @@ public class Calculadora extends JFrame {
                             new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent ae) {
+                            if(resultadoReciente){
+                                pantalla.getTexto().limpiar();
+                            }
                             JButton btn = (JButton) ae.getSource();
                             String txt = btn.getText();
+                            if(txt.equals(".") && pantalla.getTexto().getText().equals("")) {
+                                pantalla.getTexto().setText("0");
+                            }
                             pantalla.getTexto().concat(txt);
                             activarSimbolos(true);
                         }
@@ -75,6 +83,7 @@ public class Calculadora extends JFrame {
                 String txt = btn.getText();
                 pantalla.getOperacion().setText(txt);
                 activarSimbolos(false);
+                resultadoReciente = false;
             }
         });
         //signo porcentaje
@@ -88,6 +97,7 @@ public class Calculadora extends JFrame {
                 String txt = btn.getText();
                 pantalla.getOperacion().setText(txt);
                 activarSimbolos(false);
+                resultadoReciente = false;
             }
         });
         //signo multiplicar
@@ -101,6 +111,7 @@ public class Calculadora extends JFrame {
                 String txt = btn.getText();
                 pantalla.getOperacion().setText(txt);
                 activarSimbolos(false);
+                resultadoReciente = false;
             }
         });
         //signo masmenos
@@ -110,6 +121,7 @@ public class Calculadora extends JFrame {
             public void actionPerformed(ActionEvent ae) {
                 if (!pantalla.getTexto().getText().equals("")) {
                     pantalla.getTexto().cambiaSigno();
+                    resultadoReciente = false;
                 }
             }
         });
@@ -124,6 +136,7 @@ public class Calculadora extends JFrame {
                 String txt = btn.getText();
                 pantalla.getOperacion().setText(txt);
                 activarSimbolos(false);
+                resultadoReciente = false;
             }
         });
         //signo C
@@ -132,7 +145,7 @@ public class Calculadora extends JFrame {
             @Override
             public void actionPerformed(ActionEvent ae) {
                 pantalla.getTexto().limpiar();
-                activarSimbolos(false);
+                resultadoReciente = false;
             }
         });
         //signo mas
@@ -146,6 +159,7 @@ public class Calculadora extends JFrame {
                 String txt = btn.getText();
                 pantalla.getOperacion().setText(txt);
                 activarSimbolos(false);
+                resultadoReciente = false;
             }
         });
         //signo R
@@ -155,7 +169,7 @@ public class Calculadora extends JFrame {
             public void actionPerformed(ActionEvent ae) {
                 memoria = 0.0;
                 pantalla.getTexto().limpiar();
-                activarSimbolos(false);
+                resultadoReciente = false;
             }
         });
     }
@@ -186,6 +200,7 @@ public class Calculadora extends JFrame {
                 memoria += Double.parseDouble(pantalla.getTexto().getText());
                 break;
         }
+        resultadoReciente = true;
         muestraResultado();
     }
 
