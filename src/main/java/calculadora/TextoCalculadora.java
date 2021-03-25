@@ -9,15 +9,15 @@ import javax.swing.JTextArea;
  * <https://github.com/alopezp90>
  */
 public class TextoCalculadora extends JTextArea {
-    
+
     private final int FONT_SIZE = 18;
     private final int LIMITE_ESCRITURA = 10;
-    private final int CARACTERES_MAXIMOS = 19;
+    
+    public final int CARACTERES_MAXIMOS = 19;
 
-    public TextoCalculadora() {        
+    public TextoCalculadora() {
         this.setEditable(false);
         this.setFont(new Font("monospaced", Font.PLAIN, FONT_SIZE));
-        this.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
         this.setRows(1);
         this.setColumns(CARACTERES_MAXIMOS);
     }
@@ -37,17 +37,8 @@ public class TextoCalculadora extends JTextArea {
     }
 
     public void concat(String s) {
-        if (this.getText().length() > LIMITE_ESCRITURA) {
+        if (this.getText().length() + s.length() < LIMITE_ESCRITURA) {
             this.setText(this.getText() + s);
-        }
-    }
-    
-    @Override
-    public void setText(String s) {
-        if(s.length() < CARACTERES_MAXIMOS) {
-            super.setText(s);
-        } else {
-            super.setText("ERROR");
         }
     }
 }
