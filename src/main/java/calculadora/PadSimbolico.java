@@ -26,12 +26,12 @@ public class PadSimbolico extends JPanel{
         //Inicializa los botones
         botones[0][0] = new JButton("/");
         botones[1][0] = new JButton("x");
-        botones[2][0] = new JButton("-");
-        botones[3][0] = new JButton("+");
+        botones[2][0] = new JButton("+");
+        botones[3][0] = new JButton("C");
         
         botones[0][1] = new JButton("%");
         botones[1][1] = new JButton("±");
-        botones[2][1] = new JButton("C");
+        botones[2][1] = new JButton("-");
         botones[3][1] = new JButton("R");
 
         //Agrega los botones al panel

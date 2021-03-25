@@ -15,8 +15,9 @@ public class Calculadora extends JFrame {
     private Pantalla pantalla;
     private Pad pad;
     private Double memoria;
-    
+
     private boolean resultadoReciente;
+    private boolean operacionSeleccionada;
 
     public Calculadora() {
         initComponentes();
@@ -48,12 +49,12 @@ public class Calculadora extends JFrame {
                             new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent ae) {
-                            if(resultadoReciente){
+                            if (resultadoReciente) {
                                 pantalla.getTexto().limpiar();
-                            }
+                            } 
                             JButton btn = (JButton) ae.getSource();
                             String txt = btn.getText();
-                            if(txt.equals(".") && pantalla.getTexto().getText().equals("")) {
+                            if (txt.equals(".") && pantalla.getTexto().getText().equals("")) {
                                 pantalla.getTexto().setText("0");
                             }
                             pantalla.getTexto().concat(txt);
@@ -72,96 +73,41 @@ public class Calculadora extends JFrame {
                 realizarOperacion();
             }
         });
-        //signo dividir
-        pad.getPadSimbolico().getBotones()[0][0].addActionListener(
-                new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent ae) {
-                memoria = Double.parseDouble(pantalla.getTexto().getText());
-                pantalla.getTexto().limpiar();
-                JButton btn = (JButton) ae.getSource();
-                String txt = btn.getText();
-                pantalla.getOperacion().setText(txt);
-                activarSimbolos(false);
-                resultadoReciente = false;
+
+        //simbolos de operacion
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 2; j++) {
+                pad.getPadSimbolico().getBotones()[i][j].addActionListener(
+                        new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent ae) {
+                        if (!operacionSeleccionada) {
+                            memoria = Double.parseDouble(pantalla.getTexto().getText());
+                            pantalla.getTexto().limpiar();
+                            JButton btn = (JButton) ae.getSource();
+                            String txt = btn.getText();
+                            pantalla.getOperacion().setText(txt);
+                            activarSimbolos(false);
+                            resultadoReciente = false;
+                            operacionSeleccionada = true;
+                        }
+                    }
+                });
             }
-        });
-        //signo porcentaje
-        pad.getPadSimbolico().getBotones()[0][1].addActionListener(
-                new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent ae) {
-                memoria = Double.parseDouble(pantalla.getTexto().getText());
-                pantalla.getTexto().limpiar();
-                JButton btn = (JButton) ae.getSource();
-                String txt = btn.getText();
-                pantalla.getOperacion().setText(txt);
-                activarSimbolos(false);
-                resultadoReciente = false;
-            }
-        });
-        //signo multiplicar
-        pad.getPadSimbolico().getBotones()[1][0].addActionListener(
-                new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent ae) {
-                memoria = Double.parseDouble(pantalla.getTexto().getText());
-                pantalla.getTexto().limpiar();
-                JButton btn = (JButton) ae.getSource();
-                String txt = btn.getText();
-                pantalla.getOperacion().setText(txt);
-                activarSimbolos(false);
-                resultadoReciente = false;
-            }
-        });
-        //signo masmenos
-        pad.getPadSimbolico().getBotones()[1][1].addActionListener(
-                new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent ae) {
-                if (!pantalla.getTexto().getText().equals("")) {
-                    pantalla.getTexto().cambiaSigno();
-                    resultadoReciente = false;
-                }
-            }
-        });
-        //signo menos
-        pad.getPadSimbolico().getBotones()[2][0].addActionListener(
-                new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent ae) {
-                memoria = Double.parseDouble(pantalla.getTexto().getText());
-                pantalla.getTexto().limpiar();
-                JButton btn = (JButton) ae.getSource();
-                String txt = btn.getText();
-                pantalla.getOperacion().setText(txt);
-                activarSimbolos(false);
-                resultadoReciente = false;
-            }
-        });
+        }
+
         //signo C
-        pad.getPadSimbolico().getBotones()[2][1].addActionListener(
-                new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent ae) {
-                pantalla.getTexto().limpiar();
-                resultadoReciente = false;
-            }
-        });
-        //signo mas
         pad.getPadSimbolico().getBotones()[3][0].addActionListener(
                 new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                memoria = Double.parseDouble(pantalla.getTexto().getText());
                 pantalla.getTexto().limpiar();
-                JButton btn = (JButton) ae.getSource();
-                String txt = btn.getText();
-                pantalla.getOperacion().setText(txt);
-                activarSimbolos(false);
+                pantalla.getOperacion().setText("");
                 resultadoReciente = false;
+                operacionSeleccionada = false;
             }
         });
+
         //signo R
         pad.getPadSimbolico().getBotones()[3][1].addActionListener(
                 new ActionListener() {
@@ -169,13 +115,15 @@ public class Calculadora extends JFrame {
             public void actionPerformed(ActionEvent ae) {
                 memoria = 0.0;
                 pantalla.getTexto().limpiar();
+                pantalla.getOperacion().setText("");
                 resultadoReciente = false;
+                operacionSeleccionada = false;
             }
         });
     }
 
     private void activarSimbolos(boolean bool) {
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 2; j++) {
                 pad.getPadSimbolico().getBotones()[i][j].setEnabled(bool);
             }
@@ -201,6 +149,8 @@ public class Calculadora extends JFrame {
                 break;
         }
         resultadoReciente = true;
+        operacionSeleccionada = false;
+        pantalla.getOperacion().setText("");
         muestraResultado();
     }
 
